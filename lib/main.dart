@@ -44,7 +44,7 @@ class MyApp extends StatelessWidget {
         "homepage":(context) => HomePage(),
         "cart":(context) => CartPage(),
         "favourites":(context) => Favourites(),
-        "homelayout":(context) => HomeLayOut(),
+        "homelayout":(context) => LayOut(),
         //"categories":(context) => Categories(),
 
       },*/

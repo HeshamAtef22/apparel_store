@@ -1,6 +1,8 @@
 
 
 //botton color Default
+import 'package:apparel/layout/layout.dart';
+import 'package:apparel/login/register_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../components/conmponents.dart';
@@ -141,8 +143,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                   //هعمل شرط لو شروط الفالديت الخاصة بالتيكست فيلد اتحققت  النافيجيتور يشتغل ويتم تسجيل الدخول
                                   //غير كدا لا
                                   if (_keystat.currentState!.validate()) {
-                                    Navigator.of(context)
-                                        .popAndPushNamed("homelayout");
+                                    Navigator.of(context).pushAndRemoveUntil( MaterialPageRoute(builder: (context) => LayOut(),), (route) => false);
+
                                   }
                                 }
                                 ;
@@ -220,7 +222,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       SizedBox(width: 5),
                       GestureDetector(
                         onTap: () {
-                          Navigator.of(context).popAndPushNamed("register");
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => Register(),
+                          ));
                         },
                         child: Text("Register",style: TextStyle(color: Color.fromRGBO(1, 152, 164, 10),fontWeight: FontWeight.w600),),),
                     ],

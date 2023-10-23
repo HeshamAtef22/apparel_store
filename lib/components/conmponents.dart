@@ -224,18 +224,23 @@ Widget defaultTextFormFiled ({
 //CircleContaner botton
 Widget circleContainerBotton({required Widget child,void Function()? onTap})=>GestureDetector(
   onTap: onTap,
-  child:   Container(
-    width: 50,
-    height: 50,
-    decoration: BoxDecoration(
-      boxShadow: [BoxShadow(
-        color: Color.fromRGBO(107, 111, 234, 100), //New
-        blurRadius: 35.0,
-        offset: Offset(0,15),
-      ),],
-      borderRadius: BorderRadius.circular(100),
+  child:   CircleAvatar(
+    radius: 30,
+    backgroundColor: Colors.white,
+    child: Container(
+      width: 50,
+      height: 50,
+      decoration: BoxDecoration(
+
+        boxShadow: [BoxShadow(
+          color: Color.fromRGBO(107, 111, 234, 100), //New
+          blurRadius: 35.0,
+          offset: Offset(0,15),
+        ),],
+        borderRadius: BorderRadius.circular(100),
+      ),
+      child: child,
     ),
-    child: child,
   ),
 );
 

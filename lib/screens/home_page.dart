@@ -25,7 +25,92 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Drawer(),
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.grey.shade100,
+              ),
+              child: Row(
+                children: [
+                  Container(
+                    width: 60,
+                    height: 60,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(100),
+                      child: Image.asset(
+                        "assets/images/userimage_1.jpg",
+                        fit: BoxFit.fitWidth,
+                      ),
+                    ),
+                  ),
+                  //جمب الصورة هحط الاسم مثلا هيكون داخل اكسباند
+                  Expanded(
+                      child: ListTile(
+                        title: Text("Hisham",style: TextStyle(fontSize: 20,fontWeight: FontWeight.w700),),
+
+                        subtitle: Text("hesham152@gmail.com",maxLines: 1,overflow: TextOverflow.ellipsis,),
+                      ))
+                ],
+              ),
+            ),
+            SizedBox(height: 20),
+
+            ListTile(
+              title: Text("Account"),
+              leading: Icon(Icons.account_circle),
+              onTap: () {},
+            ),
+            ListTile(
+              title: Text("Language"),
+              leading: Icon(Icons.language),
+              onTap: () {},
+            ),
+            ListTile(
+              title: Text("Setting"),
+              leading: Icon(Icons.settings),
+              onTap: () {},
+            ),
+
+            ListTile(
+              title: Text("follow app"),
+              leading: Icon(Icons.add_reaction),
+              onTap: () {},
+            ),
+            ListTile(
+              title: Text("More App"),
+              leading: Icon(Icons.app_shortcut),
+              onTap: () {},
+            ),
+            ListTile(
+              title: Text("support"),
+              leading: Icon(Icons.support),
+              onTap: () {},
+            ),
+            ListTile(
+              title: Text("App Info"),
+              leading: Icon(Icons.info),
+              onTap: () {},
+            ),
+            ListTile(
+              title: Text("SignOut"),
+              leading: Icon(Icons.exit_to_app),
+              onTap: () {},
+            ),
+
+            Container(
+              margin: EdgeInsets.all(20),
+              alignment: Alignment.bottomCenter,
+              //padding: EdgeInsets.all(50),
+              child: Text(
+                " Ver 1.0.0",
+                style: TextStyle(fontWeight: FontWeight.w400),
+              ),
+            )
+          ]
+        ),
+      ),
       appBar: AppBar(
         title: Text("Apparel"),
         actions: [

@@ -1,5 +1,7 @@
 
 
+import 'package:apparel/layout/layout.dart';
+import 'package:apparel/login/login_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../components/conmponents.dart';
@@ -170,7 +172,7 @@ class _RegisterState extends State<Register> {
                     function: () {
                       if (!_keystat.currentState!.validate()) {
                       } else {
-                        Navigator.of(context).pushNamed("HomePage");
+                        Navigator.of(context).pushAndRemoveUntil( MaterialPageRoute(builder: (context) => LayOut(),), (route) => false);
                       }
                     },
                     text: "sign in",
@@ -186,7 +188,7 @@ class _RegisterState extends State<Register> {
                       ),
                       InkWell(
                         onTap: () =>
-                            Navigator.of(context).popAndPushNamed("loginscreen"),
+                            Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => LoginScreen(), )  , (route) => false),
                         child: Text(
                           "Sign In",
                           style: TextStyle(
