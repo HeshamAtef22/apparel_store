@@ -1,5 +1,6 @@
 import 'package:apparel/screens/categories/Categories.dart';
 import 'package:apparel/screens/cart.dart';
+import 'package:apparel/screens/details.dart';
 import 'package:apparel/screens/favourites.dart';
 import 'package:apparel/screens/home_page.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
  theme:  ThemeData(
    scaffoldBackgroundColor: Colors.grey.shade100,
    appBarTheme: AppBarTheme(
@@ -48,7 +50,7 @@ class MyApp extends StatelessWidget {
 
       },*/
 
-      home:  LayOut(),
+      home:  HomeLayOut(),
     );
   }
 }

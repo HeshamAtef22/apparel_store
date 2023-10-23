@@ -21,7 +21,7 @@ class _CategoriesState extends State<Categories> {
   Widget build(BuildContext context) {
     return DefaultTabController(
 
-      length: sliderBannerItems.length,
+      length: 3,
       initialIndex:widget.data,
       child: Scaffold(
         appBar: AppBar(title: Text("Categories"), actions: [

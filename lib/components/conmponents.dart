@@ -1,9 +1,10 @@
 
 
 
-//هعمل ديفولت بوتن للاب كله وهمرر الخواص عن طريق الكونستراكتور
+
 import 'package:flutter/material.dart';
 
+//هعمل ديفولت بوتن للاب كله وهمرر الخواص عن طريق الكونستراكتور
 class DefaultButton extends StatelessWidget {
   //الديفولت للعرض هو دابل انفنتي لو مدخلتش ليه ويدث عند الاستدعاء
   double width = double.infinity;
@@ -241,7 +242,7 @@ Widget circleContainerBotton({required Widget child,void Function()? onTap})=>Ge
 
 
 
-Color ColorTheme()=>Color.fromRGBO(107, 111, 234, 100);
+Color ColorTheme()=>Color.fromRGBO(107, 111, 234, 1);
 
 
 
@@ -344,7 +345,8 @@ class ProductCard extends StatefulWidget {
   final String imageUrl;
   final String? productName;
     bool? isFavorite;
-
+    String? description;
+ bool? showdetails = true;
   final double? price;
 
    ProductCard({
@@ -353,6 +355,8 @@ class ProductCard extends StatefulWidget {
      this.productName,
     required this.isFavorite,
      this.price,
+     this.description,
+     this.showdetails ,
   }) : super(key: key);
 
   @override
@@ -395,7 +399,7 @@ class _ProductCardState extends State<ProductCard> {
               )
             ]
           ),
-           if(widget.productName != null)
+           if(widget.showdetails == true)
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
@@ -410,17 +414,6 @@ class _ProductCardState extends State<ProductCard> {
         ],
       ),
     );
-  }
-}
-
-
-
-//sliderBannerItems calss contane items in slider
-class SliderBannerItems extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
   }
 }
 
@@ -506,6 +499,180 @@ class CategoriesElement extends StatelessWidget {
     );
   }
 }
+
+
+//favourite Product cart
+class CartElement extends StatelessWidget {
+  String imageUrl;
+  String price;
+  String title;
+
+
+  CartElement({super.key,required this.imageUrl,required this.price,required this.title});
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10),
+      child: Card(
+        elevation: 10,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          child: Container(
+            width: double.infinity,
+
+            child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+
+                children: [
+                  //image
+                  SizedBox(
+                    height: 170,
+                    width: 150,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: Image.asset(
+                        imageUrl,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 10),
+                  //details and price and rating
+                  Column(
+                    mainAxisAlignment:  MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+
+                      SizedBox(
+                        width: 125,
+                        child: Text(title,maxLines: 2,overflow: TextOverflow.ellipsis),),
+                      SizedBox(height: 10),
+                      Text(price,style: TextStyle(fontSize: 16,fontWeight: FontWeight.w400,color: Colors.black54),),
+                      SizedBox(height: 10),
+                      Row(
+                          children: [
+                            Text("4.5/5",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600,color: ColorTheme()),),
+                            SizedBox(width: 5),
+                            Icon(Icons.star,color: ColorTheme(),),
+                          ]
+                      ),
+
+
+
+
+
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 60),
+                    child: IconButton(onPressed: (){}, icon:Icon(Icons.delete_outline) ),
+                  ),
+
+                ]
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
+//Card of Product Cart
+
+class CardOfProduct extends StatelessWidget {
+  String imageUrl;
+  String price;
+  String title;
+
+
+
+  CardOfProduct({super.key,required this.imageUrl,required this.price,required this.title});
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10),
+      child: Card(
+        elevation: 10,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          child: Container(
+            width: double.infinity,
+
+            child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+
+                children: [
+                  //image
+                  SizedBox(
+                    height: 170,
+                    width: 150,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: Image.asset(
+                        imageUrl,
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 10),
+                  //details and price and rating
+                  Column(
+                    mainAxisAlignment:  MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+
+                      SizedBox(
+                        width: 125,
+                        child: Text(title,maxLines: 2,overflow: TextOverflow.ellipsis),),
+                      SizedBox(height: 10),
+                      Text(price,style: TextStyle(fontSize: 16,fontWeight: FontWeight.w400,color: Colors.black54),),
+                      SizedBox(height: 10),
+                      Row(
+                          children: [
+                            Text("4.5/5",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600,color: ColorTheme()),),
+                            SizedBox(width: 5),
+                            Icon(Icons.star,color: ColorTheme(),),
+                          ]
+                      ),
+
+
+
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Icon(Icons.add_circle_outline),
+                            Container(child: Center(child: Text("1")),width: 20,),
+                            Icon(Icons.remove_circle_outline),
+                          ],),
+                      ),
+
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 60),
+                    child: IconButton(onPressed: (){}, icon:Icon(Icons.delete_outline) ),
+                  ),
+
+                ]
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
 
 
 

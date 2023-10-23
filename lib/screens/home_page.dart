@@ -1,9 +1,16 @@
+import 'package:apparel/screens/test_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import '../components/conmponents.dart';
 import '../data/data.dart';
 import 'categories/Categories.dart';
+import 'details.dart';
+
+
+
+
+
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -86,6 +93,13 @@ class _HomePageState extends State<HomePage> {
                             return GestureDetector(child: sliderBannerItems[index],
                             onTap: () {
 
+                              /*PersistentNavBarNavigator.pushNewScreen(
+                                context,
+                                screen: TestScreen(),
+                                withNavBar: true, // OPTIONAL VALUE. True by default.
+                                pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                              );*/
+
                               PersistentNavBarNavigator.pushNewScreen(
                                 context,
                                 screen: Categories(data:sliderBannerItems[index].itemKey ,color:sliderBannerItems[index].containercolor ,),
@@ -95,10 +109,7 @@ class _HomePageState extends State<HomePage> {
                               );
 
 
-                              /*Navigator.push(context, MaterialPageRoute(builder: (context){
-                                return Categories(data:sliderBannerItems[index]["key"] ,);
-                              }));
-                              print("key ==== ${sliderBannerItems[index]["key"]}");*/
+
                             },
                             );
                           },
@@ -156,7 +167,16 @@ class _HomePageState extends State<HomePage> {
                                     shrinkWrap: true,
                                     physics: NeverScrollableScrollPhysics(),
                                     itemBuilder: (context, index) {
-                                      return productsandprice[index];
+                                      return GestureDetector(
+                                        onTap: () {
+                                          Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                              builder: (context) =>DetailsPage(info: productsandprice[index],)
+                                            )
+                                          );
+                                        },
+                                        child: productsandprice[index],
+                                      );
                                     },
                                     separatorBuilder:
                                         (BuildContext context, int index) {
@@ -171,12 +191,19 @@ class _HomePageState extends State<HomePage> {
                           SizedBox(width: 20,),
                           Container(
                             width: MediaQuery.of(context).size.width * .4,
-                            child: Column(children: [
+                            child: Column(
+                                children: [
                               ListView.separated(
                                   shrinkWrap: true,
                                   physics: NeverScrollableScrollPhysics(),
                                   itemBuilder: (context, index) {
-                                    return products[index];
+                                    return GestureDetector(
+                                      onTap: () => Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) => DetailsPage(info: products[index])
+                                        ),
+                                      ),
+                                        child: products[index]);
                                   },
                                   separatorBuilder:
                                       (BuildContext context, int index) {
@@ -191,23 +218,34 @@ class _HomePageState extends State<HomePage> {
                     SizedBox(height: 15),
                     Column(
                       children: [
-                        Container(
-                          width: double.infinity,
-                          child: ProductCard(
-                              imageUrl: "assets/images/man2.jpg",
-                              productName: "FILA Men’s Grey Shorts",
-                              isFavorite: isFavorite,
-                              price: 300),
+                        ListView.separated(
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            return GestureDetector(
+                              onTap: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => DetailsPage(info: ProductBannar[index])
+                                  )
+                                );
+                              },
+                              child: ProductBannar[index],
+
+                            );
+
+                          },
+                          separatorBuilder: (BuildContext context, int index) {
+                            return SizedBox(
+                              height: 10,
+                            );
+                          },
+                          itemCount: 2,
+
+
                         ),
                         SizedBox(height: 15),
-                        Container(
-                          width: double.infinity,
-                          child: ProductCard(
-                              imageUrl: "assets/images/man3.jpeg",
-                              productName: "FILA Men’s Grey Shorts",
-                              isFavorite: isFavorite,
-                              price: 700),
-                        ),
+
                       ],
                     ),
                   ],
