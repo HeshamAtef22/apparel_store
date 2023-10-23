@@ -5,7 +5,6 @@ import 'package:apparel/screens/favourites.dart';
 import 'package:apparel/screens/home_page.dart';
 import 'package:flutter/material.dart';
 
-import 'layout/home_layout.dart';
 import 'layout/layout.dart';
 import 'login/login_screen.dart';
 import 'login/register_screen.dart';
@@ -50,7 +49,7 @@ class MyApp extends StatelessWidget {
 
       },*/
 
-      home:  HomeLayOut(),
+      home:  LayOut(),
     );
   }
 }

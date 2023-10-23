@@ -1,4 +1,3 @@
-import 'package:apparel/screens/test_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
@@ -93,18 +92,12 @@ class _HomePageState extends State<HomePage> {
                             return GestureDetector(child: sliderBannerItems[index],
                             onTap: () {
 
-                              /*PersistentNavBarNavigator.pushNewScreen(
-                                context,
-                                screen: TestScreen(),
-                                withNavBar: true, // OPTIONAL VALUE. True by default.
-                                pageTransitionAnimation: PageTransitionAnimation.cupertino,
-                              );*/
 
                               PersistentNavBarNavigator.pushNewScreen(
                                 context,
                                 screen: Categories(data:sliderBannerItems[index].itemKey ,color:sliderBannerItems[index].containercolor ,),
                                 withNavBar: true, // OPTIONAL VALUE. True by default.
-                                pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                                pageTransitionAnimation: PageTransitionAnimation.scaleRotate,
 
                               );
 
