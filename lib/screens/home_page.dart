@@ -1,4 +1,5 @@
 import 'package:apparel/ad_helper.dart';
+import 'Package:apparel/ads_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -18,10 +19,47 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   bool isFavorite = false;
 
+  //ads test2
+  //rewarded ads
+  late RewardedAd _rewardedAd;  //متغير لاضافه الاعلان حسب نوعه بانر او ريورد
+  bool _isRewardedAdReady = false;  //متغير بولين يتغير عند تحميل الاب او عدم تحميله
+  var _balance = 0; //المكافأة التي سنتحكم فيها بعد شاهدة الاعلان
 
+  //Banner ads
   late BannerAd _bannerAd;
   bool _isBannerAdReady = false;
 
+  @override
+  void initState() {
+    super.initState();
+    _loadRewardedAd();
+    //
+    //Bannar ad
+    _bannerAd = BannerAd(
+      adUnitId: AdsManager.bannerAdUnitId,
+      request: const AdRequest(),
+      size: AdSize.banner,
+      listener: BannerAdListener(
+        onAdLoaded: (_) {
+          setState(() {
+            //تم تحميل الاعلان
+            _isBannerAdReady = true;
+          });
+        },
+          //في حالة فشل تحميل الاعلان
+        onAdFailedToLoad: (ad, err) {
+          print('Failed to load a banner ad: ${err.message}');
+          _isBannerAdReady = false;
+        }
+      )
+    );
+    //تشغيل الاعلان
+    _bannerAd.load();
+  }
+
+  //ads test1
+  /*late BannerAd _bannerAd;
+  bool _isBannerAdReady = false;
 
   @override
   void initState() {
@@ -50,12 +88,13 @@ class _HomePageState extends State<HomePage> {
   void dispose() {
     super.dispose();
     _bannerAd.dispose();
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
+      //هنا هتظهر لكن هتكون تحت البوتن ناف بار علشان تضيف الاعلان فوق البوتن بار يبقي لازم تضيفه في سكرين اللاي اوت
+     // bottomSheet: _bannerAdWidget(),
       drawer: Drawer(
         child: ListView(children: [
           DrawerHeader(
@@ -171,6 +210,7 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            _bannerAdWidget(),
             //TextFormField for search box
             Container(
               height: 100,
@@ -239,12 +279,14 @@ class _HomePageState extends State<HomePage> {
                           enlargeFactor: 0.3,
                           scrollDirection: Axis.horizontal,
                         )),
-                    if(_isBannerAdReady)
-                      Container(
-                        height: _bannerAd.size.height.toDouble(),
-                        width: _bannerAd.size.width.toDouble(),
-                        child: AdWidget(ad: _bannerAd),
-                      ),
+
+                    //button to show ads
+                    ElevatedButton(
+                      onPressed: ()=> _showRewardedAd(),
+                      child: Text("Show ads"),
+                    ),
+
+
                     SizedBox(height: 15),
                     //recommended and see all text
                     Row(
@@ -367,4 +409,77 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+
+  // google mobile ads function helper
+
+ Future<InitializationStatus> _initGoogleMobileAds() {
+   return MobileAds.instance.initialize();
+ }
+
+ //ميثود لتجهيز الاعلان وتحضيره
+ void _loadRewardedAd() {
+   RewardedAd.load(
+     adUnitId: AdsManager.rewardedAdUnitId,
+     request: const AdRequest(),
+     rewardedAdLoadCallback: RewardedAdLoadCallback(
+       onAdLoaded: (ad) {
+         //في حالة لم يكتمل الاعلان او تم اغلاقه
+         setState(() {
+           _rewardedAd = ad;
+           //فانكشن للتأكد هل المستخدم شاهد الاعلان بالفعل ام قام بأغلاقه
+           ad.fullScreenContentCallback = FullScreenContentCallback(
+             onAdDismissedFullScreenContent: (ad) {
+               setState(() {
+                 _isRewardedAdReady = false;
+               });
+               //اعادة تشغيل الاعلان مره اخري عند الضغط
+               _loadRewardedAd();
+             }
+           );
+         });
+         //في حالة تم الاعلان بنجاح
+         setState(() {
+           _isRewardedAdReady = true;
+         });
+       },
+       onAdFailedToLoad: (error) {
+         //_isRewardedAdReady = false;
+         //_loadRewardedAd();
+         print('Failed to load a rewarded ad: ${error.message}');
+       }
+     )
+   );
+ }
+
+ //ميثود لعرض الاعلان
+ void _showRewardedAd() {
+    //ميثود خاصه بعرض الاعلان
+   _rewardedAd.show(
+     //عندما يشاهد المستخدم الاعلان ماهي المكافأة او ماذا سيحدث؟
+     //ad بتدينا اسم المكافأه اللي ضيفناها لجوجل اد موب اللي هي كوين
+     //item بترجعلنا قيمة المكافأة
+     onUserEarnedReward: (ad, item) {
+     setState(() {
+       _balance += item.amount.toInt();
+     });
+     }
+   );
+ }
+
+ //ميثود للتحكم في عرض البانر او شكله
+ Widget _bannerAdWidget() {
+    //عندما يصبح الاعلان جاهز
+   if (_isBannerAdReady) {
+     //اعرض هذا الكونتينر وممرت له احجام اعلان البانر نفسه
+     return Container(
+       margin:  EdgeInsets.all(10),
+       width: _bannerAd.size.width.toDouble(),
+       height: _bannerAd.size.height.toDouble(),
+       child: AdWidget(ad: _bannerAd),
+     );
+   }else{
+     //لو كان غير جاهز اعرض ويدجيت فارغه
+     return SizedBox();
+   }
+ }
 }
