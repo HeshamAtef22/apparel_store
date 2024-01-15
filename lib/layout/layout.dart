@@ -1,17 +1,33 @@
 
+import 'package:apparel/ad_helper.dart';
 import 'package:apparel/login/login_screen.dart';
 import 'package:apparel/screens/cart.dart';
 import 'package:apparel/screens/favourites.dart';
 import 'package:apparel/screens/home_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 
 
 PersistentTabController? _controller = PersistentTabController(initialIndex: 0);
 
-class LayOut extends StatelessWidget {
+class LayOut extends StatefulWidget {
+
+  static const AdRequest request = AdRequest(
+    // keywords: <String>['foo', 'bar'],
+    // contentUrl: 'http://foo.com/bar.html',
+    // nonPersonalizedAds: true,
+  );
+
+  @override
+  State<LayOut> createState() => _LayOutState();
+}
+
+class _LayOutState extends State<LayOut> {
+
+
 
 
   @override
